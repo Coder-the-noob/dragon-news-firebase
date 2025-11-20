@@ -1,8 +1,9 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
+    const [error, setError] = useState("");
 
     const {logIn} = use(AuthContext);
     const location = useLocation();
@@ -25,7 +26,8 @@ const Login = () => {
         })
         .catch(error => {
             console.log(error);
-            alert(error.message);
+            // alert(error.message);
+            setError(error.code);
         });
     };
   return (
@@ -38,13 +40,16 @@ const Login = () => {
           <fieldset className="fieldset">
             {/* email */}
             <label className="label">Email</label>
-            <input name="email" type="email" className="input" placeholder="Email" />
+            <input name="email" type="email" className="input" placeholder="Email" required />
             {/* password */}
             <label className="label">Password</label>
-            <input name="password" type="password" className="input" placeholder="Password" />
+            <input name="password" type="password" className="input" placeholder="Password" required />
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
+            {
+                error && <p className="text-red-500 text-sm">{error}</p>
+            }
 
             <button type="submit" className="btn btn-neutral mt-4">Login</button>
             <p className="mt-4 font-semibold text-center">
